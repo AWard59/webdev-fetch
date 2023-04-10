@@ -1,4 +1,4 @@
-import Reach, { useState } from 'react'
+import React, { useState } from 'react'
 
 function App() {
   const [url, setUrl] = useState("")
@@ -8,48 +8,34 @@ function App() {
     setUrl(e.target.value)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await fetch(url)
-      const text = await response.text()
-      setHtml(text)
-    } catch (e) {
-      console.error(e)
-    }
+  const handleSubmit = async () => {
+    let response = await fetch('https://wiki.archlinux.org/')
+    console.log(response.text)
+      // let text = await response.text
+      // setHtml(text)
+      // console.log('html', html)
   }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          URL: 
-          <input 
-          type="text"
-          value={url}
-          onChange={handleUrlChange}
-          />
-        </label>
-        <button type="submit">
-          Submit
-        </button>
-      </form>
 
       <div>
-        {url && (
-          <iframe
-          src={url}
-          style={{ width: '300px', height: '300px', border: '1px solid black' }}
-          />
-        )}
+        <label htmlFor="urlInput">Enter URL: </label>
+        <input type="text" id="urlInput" value={url} onChange={handleUrlChange} />
+        <button onClick={handleSubmit}>Get HTML</button>
       </div>
 
       <div>
-        <label>
-          HTML: 
-          <textarea value={html} readOnly />
-        </label>
+        <object data="www.google.com" width="400" height="300" />
       </div>
+
+      <div>
+        <label htmlFor="htmlOutput">HTML Output: </label>
+        <textarea id="htmlOutput" value={html} readOnly />
+      </div>
+
     </div>
   )
 }
+
+export default App;
